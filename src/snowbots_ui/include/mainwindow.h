@@ -24,6 +24,12 @@ class MainWindow : public QMainWindow {
 
   public Q_SLOTS:
     void twist_values();
+    void handleButton1();
+    void handleButton2();
+    void handleButton3();
+    void handleButton4();
+    void handleButton5();
+    void handleButton6();
 
     /*/private slots: Note if you want to create function from mainwindow.ui
      * delete

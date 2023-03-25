@@ -9,10 +9,14 @@
 #include "geometry_msgs/Twist.h"
 #include "ros/ros.h"
 #include <string>
+#include "std_msgs/String.h"
+#include <sstream>
 
 static geometry_msgs::Twist twist_message_controller;
 static geometry_msgs::Twist twist_message_left;
 static geometry_msgs::Twist twist_message_right;
+// static std_msgs::int8_t nuc_temp;
+static std_msgs::String sub_msg;
 
 class RosIntegration {
   public:
@@ -20,11 +24,16 @@ class RosIntegration {
     ~RosIntegration();
 
     // twist topic
+    static void chatterCallback(const std_msgs::String::ConstPtr& msg)
+    {
+        // ROS_INFO("I heard: [%s]", msg->data.c_str());
+        sub_msg = *msg;
+    }
 
     static void
     twist_controller_callback(const geometry_msgs::Twist::ConstPtr& twist_msg) {
         twist_message_controller = *twist_msg;
-    }
+    }\
 
     static void
     twist_left_callback(const geometry_msgs::Twist::ConstPtr& twist_msg) {
@@ -44,6 +53,8 @@ class RosIntegration {
         "/integration_node/lwheels_pub_topic", 1000, twist_left_callback);
         twist_right_sub = n->subscribe(
         "/integration_node/rwheels_pub_topic", 1000, twist_right_callback);
+        sub = n->subscribe("chatter", 1000, chatterCallback);
+
         loop_rate.sleep();
         ros::spinOnce();
     }
@@ -55,6 +66,11 @@ class RosIntegration {
     ros::Subscriber twist_controller_sub;
     ros::Subscriber twist_left_sub;
     ros::Subscriber twist_right_sub;
+    ros::Subscriber sub;
+    //ros::NodeHandle n;
+
+    ros::Publisher chatter_pub = n->advertise<std_msgs::String>("chatter", 1000);
+
 };
 
 #endif // RosIntegration_H

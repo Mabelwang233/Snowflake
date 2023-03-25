@@ -10,7 +10,7 @@ RosIntegration::RosIntegration() {
     n = new ros::NodeHandle();
 }
 RosIntegration::~RosIntegration() {
-    ros::Duration(0.1).sleep();
+    ros::Rate(10).sleep();//probably want to make this ros::Rate
     ros::spinOnce();
     delete n;
 }

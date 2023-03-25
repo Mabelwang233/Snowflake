@@ -15,6 +15,9 @@
 #include "QPixmap"
 #include "QProcess"
 
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+#include <sstream>
 
 MainWindow::MainWindow(QWidget* parent)
   :
@@ -26,14 +29,19 @@ MainWindow::MainWindow(QWidget* parent)
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(twist_values()));
     ;
-    timer->start(500);
+    timer->start(50);
 
     // ROS
     ros_f = new RosIntegration();
     qDebug() << "Constructor OK";
 
     // UI
-
+    connect(ui->Pos1_button, &QPushButton::released, this, &MainWindow::handleButton1);
+    connect(ui->Pos2_button, &QPushButton::released, this, &MainWindow::handleButton2);
+    connect(ui->Pos3_button, &QPushButton::released, this, &MainWindow::handleButton3);
+    connect(ui->Pos4_button, &QPushButton::released, this, &MainWindow::handleButton4);
+    connect(ui->Pos5_button, &QPushButton::released, this, &MainWindow::handleButton5);
+    connect(ui->Pos6_button, &QPushButton::released, this, &MainWindow::handleButton6);
     // Snowbots Logo
     QPixmap pixmap("./src/snowbots_ui/resources/snowbot2.png");
     ui->label_5->setPixmap(pixmap);
@@ -47,7 +55,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::twist_values() {
-    ui->mode_lcd->setText("Hello World"); // replace hellow world with message for mode
+    ui->mode_lcd->setText(sub_msg.data.c_str()); // replace hellow world with message for mode
     ui->nuc_temp_lcd->display(twist_message_right.linear.x); // message req for updating nuc temp
     ui->rover_temp_lcd->display(twist_message_controller.angular.z); // message req for updating rover temp
     ui->elec_box_temp_lcd->display(twist_message_controller.linear.x); // message req for updating elec box temp
@@ -65,3 +73,50 @@ void MainWindow::twist_values() {
 // stored arm poses (button) - added in the ui, but still need to figure out for ros integration
 
 //TODO: ros inegration: get texts/numbres and send messages 
+
+void MainWindow::handleButton1()
+{
+    ui->Pos1_button->setText("Clicked!");
+    ros::NodeHandle n;
+    ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+    ros::Rate loop_rate(10);
+
+    std_msgs::String msg;
+    std::stringstream ss;
+    ss << "pos 1 clicked!";
+    msg.data = ss.str();
+    ROS_INFO("%s", msg.data.c_str());
+
+    chatter_pub.publish(msg);
+    ros::spinOnce();
+}
+void MainWindow::handleButton2()
+{
+  // change the text
+  ui->Pos2_button->setText("Clicked!");
+  // resize button
+}
+void MainWindow::handleButton3()
+{
+  // change the text
+  ui->Pos3_button->setText("Clicked!");
+  // resize button
+}
+void MainWindow::handleButton4()
+{
+  // change the text
+  ui->Pos4_button->setText("Clicked!");
+  // resize button
+}
+void MainWindow::handleButton5()
+{
+  // change the text
+  ui->Pos5_button->setText("Clicked!");
+  // resize button
+}
+void MainWindow::handleButton6()
+{
+  // change the text
+  ui->Pos6_button->setText("Clicked!");
+  // resize button
+}
