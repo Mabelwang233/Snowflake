@@ -56,8 +56,8 @@ set(QT_SOURCES
     #src/Manual_Window/manual_window.h
     #src/Manual_Window/manual_window.ui
  #ROS SRC
-    include/RosIntegration.h
-    src/RosIntegration.cpp
+ #  include/RosIntegration.h
+ #  src/RosIntegration.cpp
 
     )
 
