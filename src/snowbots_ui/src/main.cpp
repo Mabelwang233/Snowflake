@@ -9,6 +9,9 @@
 #include <QApplication>
 #include <QtGui>
 
+#include "std_msgs/String.h"
+#include <sstream>
+
 int main(int argc, char** argv) {
     QApplication a(argc, argv);
     ros::init(argc, argv, "snowbot_ui");
