@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 
     ros::NodeHandle n;
 
-    ros::Publisher pub = n.advertise<geometry_msgs::Twist>("/cmd_vel", 1000);
+    ros::Publisher pub = n.advertise<std_msgs::Float32>("/cmd_vel", 1000);
 
     ros::Rate rate(10);
 
@@ -24,13 +24,10 @@ int main(int argc, char** argv) {
 
     while (ros::ok()) {
         // Declares the message to be sent
-        geometry_msgs::Twist msg;
-
-        // Random x value between -2 and 2
-        msg.linear.x = 4 * double(rand()) / double(RAND_MAX) - 2;
+        std_msgs::Float32 msg;
 
         // Random z value between -3 and 3
-        msg.angular.z = 6 * double(rand()) / double(RAND_MAX) - 3;
+        msg = 6 * double(rand()) / double(RAND_MAX) - 3;
 
         // Publish the message
         pub.publish(msg);

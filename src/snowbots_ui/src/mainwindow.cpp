@@ -38,11 +38,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     // UI
     connect(ui->Pos1_button, &QPushButton::released, this, &MainWindow::handleButton1);
-    // connect(ui->Pos2_button, &QPushButton::released, this, &MainWindow::handleButton2);
-    // connect(ui->Pos3_button, &QPushButton::released, this, &MainWindow::handleButton3);
-    // connect(ui->Pos4_button, &QPushButton::released, this, &MainWindow::handleButton4);
-    // connect(ui->Pos5_button, &QPushButton::released, this, &MainWindow::handleButton5);
-    // connect(ui->Pos6_button, &QPushButton::released, this, &MainWindow::handleButton6);
+    connect(ui->Pos2_button, &QPushButton::released, this, &MainWindow::handleButton2);
+    connect(ui->Pos3_button, &QPushButton::released, this, &MainWindow::handleButton3);
+    connect(ui->Pos4_button, &QPushButton::released, this, &MainWindow::handleButton4);
+    connect(ui->Pos5_button, &QPushButton::released, this, &MainWindow::handleButton5);
+    connect(ui->Pos6_button, &QPushButton::released, this, &MainWindow::handleButton6);
     // Snowbots Logo
     QPixmap pixmap("./src/snowbots_ui/resources/snowbot2.png");
     ui->label_5->setPixmap(pixmap);
@@ -59,12 +59,12 @@ MainWindow::~MainWindow() {
 
 void MainWindow::twist_values() {
     ui->mode_lcd->setText("hello"); // replace hellow world with message for mode
-    ui->nuc_temp_lcd->display(twist_message_right.linear.x); // message req for updating nuc temp
-    ui->rover_temp_lcd->display(twist_message_controller.angular.z); // message req for updating rover temp
-    ui->elec_box_temp_lcd->display(twist_message_controller.linear.x); // message req for updating elec box temp
-    ui->end_effector_force_feedback_lcd->display(twist_message_controller.linear.x); // message req for updating end effector force feeback as % of grip
-    ui->end_effector_pos_feedback_lcd->display(twist_message_controller.linear.x); // message req for updating end effector position feedback
-    //ros_f->twist_subscriber(); // message req for updating elec box temp
+    ui->nuc_temp_lcd->display(nuc_temp.data); // message req for updating nuc temp
+    ui->rover_temp_lcd->display(nuc_temp.data); // message req for updating rover temp
+    ui->elec_box_temp_lcd->display(nuc_temp.data); // message req for updating elec box temp
+    ui->end_effector_force_feedback_lcd->display(nuc_temp.data); // message req for updating end effector force feeback as % of grip
+    ui->end_effector_pos_feedback_lcd->display(nuc_temp.data); // message req for updating end effector position feedback
+    feedback_subscriber(); // message req for updating elec box temp
 }
 // TODOS: 
 // Current Mode - status - done
@@ -76,34 +76,3 @@ void MainWindow::twist_values() {
 // stored arm poses (button) - added in the ui, but still need to figure out for ros integration
 
 //TODO: ros inegration: get texts/numbres and send messages 
-
-void MainWindow::handleButton2()
-{
-  // change the text
-  ui->Pos2_button->setText("Clicked!");
-  // resize button
-}
-void MainWindow::handleButton3()
-{
-  // change the text
-  ui->Pos3_button->setText("Clicked!");
-  // resize button
-}
-void MainWindow::handleButton4()
-{
-  // change the text
-  ui->Pos4_button->setText("Clicked!");
-  // resize button
-}
-void MainWindow::handleButton5()
-{
-  // change the text
-  ui->Pos5_button->setText("Clicked!");
-  // resize button
-}
-void MainWindow::handleButton6()
-{
-  // change the text
-  ui->Pos6_button->setText("Clicked!");
-  // resize button
-}
